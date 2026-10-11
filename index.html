@@ -3,66 +3,135 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b2a5b">
   <title>Lab Kapısı</title>
   <script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
   <style>
+    :root {
+      --lacivert: #0b2a5b;
+      --lacivert-acik: #1d4e9e;
+      --zemin: #f3f6fb;
+      --yazi: #0f1e36;
+      --soluk: #5b6b85;
+    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       font-family: system-ui, "Segoe UI", sans-serif;
-      background: linear-gradient(160deg, #0f172a, #1e3a8a);
+      background: var(--zemin);
+      color: var(--yazi);
+    }
+
+    /* ---------- Ust bant: devre deseni + sinyal dalgalari ---------- */
+    header {
+      position: relative;
+      background: var(--lacivert);
       color: white;
+      padding: 40px 24px 100px;
+      text-align: center;
+      overflow: hidden;
+    }
+    header svg.desen { position: absolute; inset: 0; width: 100%; height: 100%; }
+    header .icerik { position: relative; }
+    .fakulte { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; opacity: .75; margin: 0; }
+    h1 { margin: 10px 0 4px; font-size: 30px; }
+    .bolum { margin: 0; font-size: 14px; opacity: .85; }
+
+    /* ---------- Ana kart ---------- */
+    main {
+      max-width: 380px;
+      margin: -60px auto 0;
+      padding: 0 16px 32px;
+      position: relative;
     }
     .kart {
-      width: 88%;
-      max-width: 360px;
-      background: rgba(255, 255, 255, 0.08);
+      background: white;
       border-radius: 24px;
-      padding: 32px 24px;
+      padding: 32px 24px 26px;
       text-align: center;
+      box-shadow: 0 10px 30px rgba(11, 42, 91, .12);
     }
-    .ikon { font-size: 56px; }
-    h1 { margin: 8px 0 4px; font-size: 26px; }
-    .alt { margin: 0 0 28px; color: #cbd5e1; font-size: 14px; }
-    button {
-      width: 100%;
-      padding: 22px;
-      font-size: 22px;
-      font-weight: bold;
-      border: none;
-      border-radius: 18px;
-      background: #22c55e;
-      color: white;
-      cursor: pointer;
-    }
-    button:active { transform: scale(0.97); }
-    button:disabled { background: #64748b; cursor: not-allowed; }
-    #durum { margin-top: 20px; font-size: 15px; color: #e2e8f0; }
-    .nokta {
-      display: inline-block;
-      width: 10px; height: 10px;
+    #buton {
+      width: 170px; height: 170px;
       border-radius: 50%;
-      background: #f59e0b;
-      margin-right: 6px;
+      border: 8px solid #e3eaf6;
+      background: var(--lacivert);
+      color: white;
+      font-size: 18px; font-weight: 700;
+      cursor: pointer;
+      display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      transition: transform .1s, background .2s;
     }
+    #buton:active { transform: scale(.96); }
+    #buton:disabled { background: #9aa8bf; cursor: not-allowed; }
+    #buton.acik { background: #15803d; border-color: #dcfce7; }
+    #buton svg { width: 46px; height: 46px; }
+
+    .durum {
+      margin: 22px auto 0;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: var(--zemin);
+      font-size: 14px; font-weight: 600;
+    }
+    .nokta { width: 10px; height: 10px; border-radius: 50%; background: #f59e0b; }
+
+
+    footer { text-align: center; font-size: 12px; color: var(--soluk); padding-bottom: 24px; }
   </style>
 </head>
 <body>
-  <div class="kart">
-    <div class="ikon">🚪</div>
-    <h1>Lab Kapısı</h1>
-    <p class="alt">YTÜ Elektronik ve Haberleşme</p>
+  <header>
+    <!-- Devre izleri ve anten dalgalari: tamamen kodla cizildi -->
+    <svg class="desen" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g fill="none" stroke="#3b6fc4" stroke-width="1.4" opacity=".6">
+        <path d="M0 40 H70 L90 60 H150"/><circle cx="150" cy="60" r="3.5"/>
+        <path d="M0 120 H40 L60 100 H110 L125 115"/><circle cx="125" cy="115" r="3.5"/>
+        <path d="M0 190 H90 L110 170 H140"/><circle cx="140" cy="170" r="3.5"/>
+        <path d="M400 30 H330 L310 50 H260"/><circle cx="260" cy="50" r="3.5"/>
+        <path d="M400 110 H350 L335 125 H290"/><circle cx="290" cy="125" r="3.5"/>
+        <path d="M400 200 H320 L300 180 H265"/><circle cx="265" cy="180" r="3.5"/>
+        <rect x="175" y="196" width="50" height="22" rx="3"/>
+        <path d="M182 196 v-8 M192 196 v-8 M202 196 v-8 M212 196 v-8 M218 196 v-8"/>
+      </g>
+      <g fill="none" stroke="#7aa2e3" stroke-width="2" opacity=".5" stroke-linecap="round">
+        <path d="M352 62 L344 92 M352 62 L360 92 M347 80 H357"/>
+        <circle cx="352" cy="58" r="3" fill="#7aa2e3"/>
+        <path d="M340 46 a17 17 0 0 1 24 0"/>
+        <path d="M332 38 a28 28 0 0 1 40 0"/>
+        <path d="M324 30 a39 39 0 0 1 56 0"/>
+      </g>
+    </svg>
+    <div class="icerik">
+      <p class="fakulte">YTÜ · Elektrik-Elektronik Fakültesi</p>
+      <h1>Lab Kapısı</h1>
+      <p class="bolum">Elektronik ve Haberleşme Mühendisliği</p>
+    </div>
+  </header>
 
-    <button id="buton" onclick="kapiyiAc()" disabled>Kapıyı Aç</button>
+  <main>
+    <div class="kart">
+      <button id="buton" onclick="kapiyiAc()" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="5" y="11" width="14" height="10" rx="2"/>
+          <path d="M8 11V7a4 4 0 0 1 7.5-2"/>
+          <circle cx="12" cy="16" r="1.2"/>
+        </svg>
+        <span id="butonYazi">Kapıyı Aç</span>
+      </button>
 
-    <p id="durum"><span class="nokta" id="nokta"></span><span id="yazi">Bağlanıyor...</span></p>
-  </div>
+      <div><span class="durum"><span class="nokta" id="nokta"></span><span id="yazi">Bağlanıyor...</span></span></div>
+
+    </div>
+  </main>
+
+  <footer>Dr. Öğr. Üyesi Aslıhan Özakın Laboratuvarı</footer>
 
   <script>
     const postaci = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
+    const buton = document.getElementById("buton");
 
     function durumYaz(mesaj, renk) {
       document.getElementById("yazi").textContent = mesaj;
@@ -70,19 +139,25 @@
     }
 
     postaci.on("connect", function () {
-      document.getElementById("buton").disabled = false;
+      buton.disabled = false;
       durumYaz("Hazır", "#22c55e");
     });
 
     postaci.on("close", function () {
-      document.getElementById("buton").disabled = true;
+      buton.disabled = true;
       durumYaz("Bağlantı yok", "#ef4444");
     });
 
     function kapiyiAc() {
       postaci.publish("ytulab-k7q9x2/komut", "AC");
-      durumYaz("Kapı açılıyor...", "#3b82f6");
-      setTimeout(function () { durumYaz("Hazır", "#22c55e"); }, 5000);
+      buton.classList.add("acik");
+      document.getElementById("butonYazi").textContent = "Açıldı";
+      durumYaz("Kapı açık", "#15803d");
+      setTimeout(function () {
+        buton.classList.remove("acik");
+        document.getElementById("butonYazi").textContent = "Kapıyı Aç";
+        durumYaz("Hazır", "#22c55e");
+      }, 5000);
     }
   </script>
 </body>
