@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab Kapısı</title>
+  <script src="https://unpkg.com/mqtt@5/dist/mqtt.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, "Segoe UI", sans-serif;
+      background: linear-gradient(160deg, #0f172a, #1e3a8a);
+      color: white;
+    }
+    .kart {
+      width: 88%;
+      max-width: 360px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .ikon { font-size: 56px; }
+    h1 { margin: 8px 0 4px; font-size: 26px; }
+    .alt { margin: 0 0 28px; color: #cbd5e1; font-size: 14px; }
+    button {
+      width: 100%;
+      padding: 22px;
+      font-size: 22px;
+      font-weight: bold;
+      border: none;
+      border-radius: 18px;
+      background: #22c55e;
+      color: white;
+      cursor: pointer;
+    }
+    button:active { transform: scale(0.97); }
+    button:disabled { background: #64748b; cursor: not-allowed; }
+    #durum { margin-top: 20px; font-size: 15px; color: #e2e8f0; }
+    .nokta {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #f59e0b;
+      margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="kart">
+    <div class="ikon">🚪</div>
+    <h1>Lab Kapısı</h1>
+    <p class="alt">YTÜ Elektronik ve Haberleşme</p>
+
+    <button id="buton" onclick="kapiyiAc()" disabled>Kapıyı Aç</button>
+
+    <p id="durum"><span class="nokta" id="nokta"></span><span id="yazi">Bağlanıyor...</span></p>
+  </div>
+
+  <script>
+    const postaci = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
+
+    function durumYaz(mesaj, renk) {
+      document.getElementById("yazi").textContent = mesaj;
+      document.getElementById("nokta").style.background = renk;
+    }
+
+    postaci.on("connect", function () {
+      document.getElementById("buton").disabled = false;
+      durumYaz("Hazır", "#22c55e");
+    });
+
+    postaci.on("close", function () {
+      document.getElementById("buton").disabled = true;
+      durumYaz("Bağlantı yok", "#ef4444");
+    });
+
+    function kapiyiAc() {
+      postaci.publish("ytulab-k7q9x2/komut", "AC");
+      durumYaz("Kapı açılıyor...", "#3b82f6");
+      setTimeout(function () { durumYaz("Hazır", "#22c55e"); }, 5000);
+    }
+  </script>
+</body>
+</html>
