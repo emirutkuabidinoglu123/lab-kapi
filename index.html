@@ -148,6 +148,7 @@
     postaci.on("connect", function () {
       buton.disabled = false;
       durumYaz("Hazır", "#22c55e");
+      postaci.subscribe("ytulab-k7q9x2/durum");           // YENI: ESP32'nin cevaplarini dinle
     });
 
     postaci.on("close", function () {
@@ -155,16 +156,23 @@
       durumYaz("Bağlantı yok", "#ef4444");
     });
 
-    function kapiyiAc() {
-      postaci.publish("ytulab-k7q9x2/komut", "AC");
-      buton.classList.add("acik");
-      document.getElementById("butonYazi").textContent = "Açıldı";
-      durumYaz("Kapı açık", "#15803d");
-      setTimeout(function () {
+    // YENI: ESP32'den cevap gelince burasi calisir
+    postaci.on("message", function (konu, veri) {
+      const mesaj = veri.toString();
+      if (mesaj === "ACIK") {
+        buton.classList.add("acik");
+        document.getElementById("butonYazi").textContent = "Açıldı";
+        durumYaz("Kapı açık", "#15803d");
+      } else if (mesaj === "KILITLI") {
         buton.classList.remove("acik");
         document.getElementById("butonYazi").textContent = "Kapıyı Aç";
-        durumYaz("Hazır", "#22c55e");
-      }, 5000);
+        durumYaz("Kapı kilitli", "#22c55e");
+      }
+    });
+
+    function kapiyiAc() {
+      postaci.publish("ytulab-k7q9x2/komut", "AC");
+      durumYaz("Komut gönderildi, kapı bekleniyor...", "#3b82f6");   // YENI: artik tahmin yok
     }
   </script>
 </body>
