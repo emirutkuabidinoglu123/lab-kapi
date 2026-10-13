@@ -86,41 +86,7 @@
     .nokta { width: 10px; height: 10px; border-radius: 50%; background: #f59e0b; }
 
 
-
-    /* ---------- Yeni parcalar: ayarlar, kayit ---------- */
-    main { max-width: 400px; }
-    .kart + .kart { margin-top: 16px; }
-    .ustSatir { display: flex; justify-content: space-between; align-items: center; margin: -8px 0 18px; }
-    .merhaba { font-size: 15px; font-weight: 600; }
-    .ikonButon { border: 0; background: var(--zemin); width: 40px; height: 40px; border-radius: 12px; cursor: pointer; color: var(--lacivert); display: inline-flex; align-items: center; justify-content: center; }
-    .ikonButon svg { width: 22px; height: 22px; }
-    .alan { text-align: left; margin-bottom: 12px; }
-    .alan label { display: block; font-size: 13px; color: var(--soluk); margin-bottom: 6px; }
-    .alan input { width: 100%; padding: 12px; font-size: 16px; border: 2px solid #e3eaf6; border-radius: 12px; background: var(--zemin); color: var(--yazi); outline: none; }
-    .alan input:focus { border-color: var(--lacivert-acik); }
-    .anaButon { width: 100%; padding: 14px; font-size: 17px; font-weight: 700; border: 0; border-radius: 14px; background: var(--lacivert); color: white; cursor: pointer; }
-    .anaButon:active { transform: scale(.98); }
-    .ikinciButon { width: 100%; padding: 12px; font-size: 15px; font-weight: 600; border: 2px solid #e3eaf6; border-radius: 14px; background: white; color: var(--lacivert); cursor: pointer; margin-top: 10px; }
-    .uyari { margin-top: 10px; min-height: 20px; font-size: 14px; }
-    .uyari.kotu { color: #b91c1c; } .uyari.iyi { color: #15803d; }
-    .kartBaslik { margin: 0 0 14px; font-size: 17px; font-weight: 700; text-align: left; }
-    .ayrac { border: 0; border-top: 1px solid #e3eaf6; margin: 18px 0; }
-    #kayitListe { list-style: none; margin: 0; padding: 0; text-align: left; }
-    #kayitListe li { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eef2f9; font-size: 14px; }
-    #kayitListe li:last-child { border-bottom: 0; }
-    .kZaman { color: var(--soluk); white-space: nowrap; font-variant-numeric: tabular-nums; }
-    .kKim { font-weight: 600; }
-    .kOlay { color: var(--soluk); }
-    .kOlay.kotu { color: #b91c1c; font-weight: 600; }
-    .bos { color: var(--soluk); font-size: 14px; text-align: left; }
-    .kilitIkon { width: 56px; height: 56px; color: var(--lacivert); margin-bottom: 8px; }
-    .gizli { display: none !important; }
-    .rozet { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: #e3eaf6; color: var(--lacivert); font-size: 11px; font-weight: 700; vertical-align: middle; }
-    .kartUst { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-    .kartUst .kartBaslik { margin: 0; }
-    .linkButon { border: 0; background: none; color: var(--lacivert-acik); font-size: 14px; font-weight: 600; cursor: pointer; }
-    .aciklama { margin: -6px 0 12px; font-size: 13px; color: var(--soluk); text-align: left; }
-    footer { text-align: center; font-size: 12px; color: var(--soluk); padding: 8px 16px 24px; }
+    footer { text-align: center; font-size: 12px; color: var(--soluk); padding-bottom: 24px; }
   </style>
 </head>
 <body>
@@ -153,260 +119,61 @@
   </header>
 
   <main>
-    <!-- 1) GIRIS KARTI -->
-    <div class="kart" id="girisKart">
-      <svg class="kilitIkon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1.2"/>
-      </svg>
-      <p class="kartBaslik" style="text-align:center">Giriş</p>
-      <div class="alan"><label for="isimGiris">Adınız</label><input id="isimGiris" placeholder="Örn. Aslıhan Hoca"></div>
-      <div class="alan"><label for="pinGiris">PIN</label><input id="pinGiris" type="password" inputmode="numeric" maxlength="4" placeholder="••••"></div>
-      <button class="anaButon" id="girisButon" onclick="girisYap()">Giriş Yap</button>
-      <div class="uyari kotu" id="girisUyari"></div>
-    </div>
-
-    <!-- 2) KAPI KARTI -->
-    <div class="kart gizli" id="kapiKart">
-      <div class="ustSatir">
-        <span class="merhaba" id="merhaba">Merhaba</span>
-        <button class="ikonButon" onclick="ayarlariAc()" aria-label="Ayarlar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
-        </button>
-      </div>
+    <div class="kart">
       <button id="buton" onclick="kapiyiAc()" disabled>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/><circle cx="12" cy="16" r="1.2"/>
+          <rect x="5" y="11" width="14" height="10" rx="2"/>
+          <path d="M8 11V7a4 4 0 0 1 7.5-2"/>
+          <circle cx="12" cy="16" r="1.2"/>
         </svg>
         <span id="butonYazi">Kapıyı Aç</span>
       </button>
+
       <div><span class="durum"><span class="nokta" id="nokta"></span><span id="yazi">Bağlanıyor...</span></span></div>
-      <div class="uyari kotu" id="kapiUyari"></div>
-    </div>
 
-    <!-- 3) SON GIRISLER -->
-    <div class="kart gizli" id="kayitKart">
-      <div class="kartUst"><p class="kartBaslik">Son girişler</p><button class="linkButon" onclick="kayitIste()">Yenile</button></div>
-      <ul id="kayitListe"></ul>
-      <p class="bos" id="kayitBos">Henüz kayıt yok.</p>
-    </div>
-
-    <!-- 4) AYARLAR -->
-    <div class="kart gizli" id="ayarKart">
-      <p class="kartBaslik">Ayarlar</p>
-      <div class="alan"><label for="isimAyar">Adınız (kayıtlarda bu görünür)</label><input id="isimAyar"></div>
-      <button class="ikinciButon" onclick="isimKaydet()">Adı kaydet</button>
-      <div id="yoneticiAyar">
-        <hr class="ayrac">
-        <p class="kartBaslik">Kullanıcı PIN'i</p>
-        <p class="aciklama">Öğrencilerin kapıyı açmak için kullandığı PIN. Kayıtları ve ayarları göremezler.</p>
-        <div class="alan"><label for="kYeni">Yeni kullanıcı PIN'i (4 hane)</label><input id="kYeni" type="password" inputmode="numeric" maxlength="4"></div>
-        <div class="alan"><label for="kYeni2">Tekrar</label><input id="kYeni2" type="password" inputmode="numeric" maxlength="4"></div>
-        <button class="anaButon" onclick="pinDegistir('K')">Kullanıcı PIN'ini değiştir</button>
-        <hr class="ayrac">
-        <p class="kartBaslik">Yönetici PIN'i</p>
-        <p class="aciklama">Sizin PIN'iniz. Kayıtları görür ve PIN'leri değiştirir.</p>
-        <div class="alan"><label for="yYeni">Yeni yönetici PIN'i (4 hane)</label><input id="yYeni" type="password" inputmode="numeric" maxlength="4"></div>
-        <div class="alan"><label for="yYeni2">Tekrar</label><input id="yYeni2" type="password" inputmode="numeric" maxlength="4"></div>
-        <button class="anaButon" onclick="pinDegistir('Y')">Yönetici PIN'ini değiştir</button>
-      </div>
-      <div class="uyari" id="ayarUyari"></div>
-      <hr class="ayrac">
-      <button class="ikinciButon" onclick="geriDon()">← Kapıya dön</button>
-      <button class="ikinciButon" onclick="cikisYap()" style="color:#b91c1c">Çıkış yap</button>
     </div>
   </main>
 
   <footer>Dr. Öğr. Üyesi Aslıhan Özakın Laboratuvarı</footer>
 
   <script>
-    // ---------- Konular (ESP32 kodundakilerle AYNI olmali) ----------
-    const KONU_KOMUT = "ytulab-k7q9x2/komut";
-    const KONU_DURUM = "ytulab-k7q9x2/durum";
-    const kimlik = Math.random().toString(36).slice(2, 10);         // bu telefonun gecici kimligi
-    const KONU_CEVAP = "ytulab-k7q9x2/cevap/" + kimlik;              // ESP32 sadece bize buradan cevap verir
-    const BEKLEME_MS = 15000;                                        // ESP32'den cevap icin en fazla bu kadar bekle
-
-    const $ = id => document.getElementById(id);
-    function sakla(a, d) { try { d === null ? localStorage.removeItem(a) : localStorage.setItem(a, d); } catch (e) {} }
-    function oku(a) { try { return localStorage.getItem(a); } catch (e) { return null; } }
-
-    let pin = oku("pin");          // dogru girildiyse bu telefonda hatirlanir
-    let rol = oku("rol");          // "yonetici" veya "kullanici"
-    let isim = oku("isim") || "";
-    let bekleyen = null;           // cevap beklenen islem: "giris" | "ac" | "pin" | "kayit"
-    let bekleyenPin = null;        // degistirilmek istenen PIN
-    let zamanAsimi = null;
-    let kayitSayaci = null;
-
-    function goster(...idler) {
-      ["girisKart", "kapiKart", "kayitKart", "ayarKart"].forEach(k => $(k).classList.toggle("gizli", !idler.includes(k)));
-    }
-    function durumYaz(mesaj, renk) { $("yazi").textContent = mesaj; $("nokta").style.background = renk; }
-    function uyar(id, mesaj, iyi) { $(id).textContent = mesaj; $(id).className = "uyari " + (iyi ? "iyi" : "kotu"); }
-
-    function cevapBekle(islem, uyariId) {
-      bekleyen = islem;
-      clearTimeout(zamanAsimi);
-      zamanAsimi = setTimeout(() => {
-        bekleyen = null;
-        if (uyariId) uyar(uyariId, "Kapı yanıt vermiyor, çevrimdışı olabilir.");
-      }, BEKLEME_MS);
-    }
-
-    // ---------- Postaciya baglan ----------
     const postaci = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
+    const buton = document.getElementById("buton");
+
+    function durumYaz(mesaj, renk) {
+      document.getElementById("yazi").textContent = mesaj;
+      document.getElementById("nokta").style.background = renk;
+    }
 
     postaci.on("connect", function () {
-      postaci.subscribe([KONU_DURUM, KONU_CEVAP]);
-      $("buton").disabled = false;
+      buton.disabled = false;
       durumYaz("Hazır", "#22c55e");
-      if (pin && rol === "yonetici") kayitIste();
-    });
-    postaci.on("close", function () {
-      $("buton").disabled = true;
-      durumYaz("Sunucu bağlantısı yok", "#ef4444");
+      postaci.subscribe("ytulab-k7q9x2/durum");           // YENI: ESP32'nin cevaplarini dinle
     });
 
+    postaci.on("close", function () {
+      buton.disabled = true;
+      durumYaz("Bağlantı yok", "#ef4444");
+    });
+
+    // YENI: ESP32'den cevap gelince burasi calisir
     postaci.on("message", function (konu, veri) {
       const mesaj = veri.toString();
-      if (konu === KONU_DURUM) durumGeldi(mesaj);
-      else if (konu === KONU_CEVAP) cevapGeldi(mesaj);
+      if (mesaj === "ACIK") {
+        buton.classList.add("acik");
+        document.getElementById("butonYazi").textContent = "Açıldı";
+        durumYaz("Kapı açık", "#15803d");
+      } else if (mesaj === "KILITLI") {
+        buton.classList.remove("acik");
+        document.getElementById("butonYazi").textContent = "Kapıyı Aç";
+        durumYaz("Kapı kilitli", "#22c55e");
+      }
     });
 
-    // ---------- ESP32'den gelenler ----------
-    function durumGeldi(mesaj) {
-      const buton = $("buton");
-      if (mesaj === "ACIK") {
-        buton.classList.add("acik"); $("butonYazi").textContent = "Açıldı"; durumYaz("Kapı açık", "#15803d");
-        if (bekleyen === "ac") { bekleyen = null; clearTimeout(zamanAsimi); }
-      } else if (mesaj === "KILITLI") {
-        buton.classList.remove("acik"); $("butonYazi").textContent = "Kapıyı Aç"; durumYaz("Kapı kilitli", "#22c55e");
-      } else if (mesaj === "CEVRIMDISI") {
-        buton.classList.remove("acik"); $("butonYazi").textContent = "Kapıyı Aç"; durumYaz("Kapı çevrimdışı", "#94a3b8");
-      }
-      if (rol === "yonetici" && pin) setTimeout(kayitIste, 800);   // yeni olay olmus olabilir
-    }
-
-    function kayitlariYaz(metin) {
-      const liste = $("kayitListe");
-      liste.innerHTML = "";
-      const satirlar = metin.split("\n").filter(s => s.trim() !== "");
-      $("kayitBos").classList.toggle("gizli", satirlar.length > 0);
-      satirlar.forEach(function (satir) {
-        const [zaman, kim, olay] = satir.split("|");
-        const li = document.createElement("li");
-        const z = document.createElement("span"); z.className = "kZaman"; z.textContent = zaman;
-        const k = document.createElement("span"); k.className = "kKim"; k.textContent = kim;
-        const o = document.createElement("span"); o.className = "kOlay" + (olay && olay.includes("Hatalı") ? " kotu" : ""); o.textContent = olay;
-        const sag = document.createElement("div"); sag.append(k, document.createElement("br"), o);
-        li.append(z, sag);
-        liste.append(li);
-      });
-    }
-
-    function cevapGeldi(cevap) {
-      // Kayit listesi her zaman "KAYIT" ile baslar
-      if (cevap.startsWith("KAYIT")) { kayitlariYaz(cevap.slice(6)); if (bekleyen === "kayit") { bekleyen = null; clearTimeout(zamanAsimi); } return; }
-
-      const islem = bekleyen; bekleyen = null; clearTimeout(zamanAsimi);
-      if (cevap === "BEKLE") {
-        const id = islem === "giris" ? "girisUyari" : islem === "pin" ? "ayarUyari" : "kapiUyari";
-        uyar(id, "Çok fazla hatalı deneme. 1 dakika bekleyin.");
-        return;
-      }
-      if (islem === "giris") {
-        if (cevap === "GIRIS_YONETICI" || cevap === "GIRIS_KULLANICI") {
-          pin = $("pinGiris").value; rol = cevap === "GIRIS_YONETICI" ? "yonetici" : "kullanici";
-          sakla("pin", pin); sakla("rol", rol); sakla("isim", isim);
-          $("pinGiris").value = ""; uyar("girisUyari", "", true);
-          kapiEkrani();
-        } else uyar("girisUyari", "Yanlış PIN, tekrar deneyin.");
-      } else if (islem === "ac" || islem === "kayit") {
-        if (cevap === "HATALI_PIN") { cikisYap(); uyar("girisUyari", "PIN değişmiş, lütfen tekrar giriş yapın."); }
-      } else if (islem === "pin") {
-        if (cevap === "PIN_DEGISTI") {
-          if (bekleyenPin && bekleyenPin.hangisi === "Y") { pin = bekleyenPin.yeni; sakla("pin", pin); }
-          ["kYeni", "kYeni2", "yYeni", "yYeni2"].forEach(i => $(i).value = "");
-          uyar("ayarUyari", (bekleyenPin.hangisi === "Y" ? "Yönetici" : "Kullanıcı") + " PIN'i değiştirildi.", true);
-        } else if (cevap === "YETKISIZ") uyar("ayarUyari", "Bu işlem için yönetici olmalısınız.");
-        else if (cevap === "PIN_GECERSIZ") uyar("ayarUyari", "Yeni PIN 4 haneli olmalı.");
-        else if (cevap === "HATALI_PIN") { cikisYap(); uyar("girisUyari", "PIN değişmiş, lütfen tekrar giriş yapın."); }
-      }
-    }
-
-    // ---------- Kullanicinin yaptiklari ----------
-    function girisYap() {
-      isim = $("isimGiris").value.trim();
-      const girilen = $("pinGiris").value.trim();
-      if (!isim) { uyar("girisUyari", "Lütfen adınızı yazın."); return; }
-      if (girilen.length !== 4) { uyar("girisUyari", "PIN 4 haneli olmalı."); return; }
-      uyar("girisUyari", "Kontrol ediliyor...", true);
-      postaci.publish(KONU_KOMUT, ["GIRIS", kimlik, girilen].join("|"));
-      cevapBekle("giris", "girisUyari");
-    }
-    $("pinGiris").addEventListener("keydown", e => { if (e.key === "Enter") girisYap(); });
-
     function kapiyiAc() {
-      uyar("kapiUyari", "", true);
-      postaci.publish(KONU_KOMUT, ["AC", kimlik, pin, isim].join("|"));
-      durumYaz("Komut gönderildi, kapı bekleniyor...", "#3b82f6");
-      cevapBekle("ac", "kapiUyari");
+      postaci.publish("ytulab-k7q9x2/komut", "AC");
+      durumYaz("Komut gönderildi, kapı bekleniyor...", "#3b82f6");   // YENI: artik tahmin yok
     }
-
-    function kayitIste() {
-      if (rol !== "yonetici" || !pin || bekleyen) return;
-      postaci.publish(KONU_KOMUT, ["KAYIT", kimlik, pin].join("|"));
-      cevapBekle("kayit", null);
-    }
-
-    function ayarlariAc() {
-      $("isimAyar").value = isim; uyar("ayarUyari", "", true);
-      $("yoneticiAyar").classList.toggle("gizli", rol !== "yonetici");
-      goster("ayarKart");
-    }
-    function geriDon() { kapiEkrani(); }
-    function isimKaydet() {
-      const yeni = $("isimAyar").value.trim();
-      if (!yeni) { uyar("ayarUyari", "Ad boş olamaz."); return; }
-      isim = yeni; sakla("isim", isim); merhabaYaz();
-      uyar("ayarUyari", "Ad kaydedildi.", true);
-    }
-    function pinDegistir(hangisi) {
-      const a = hangisi === "K" ? $("kYeni").value.trim() : $("yYeni").value.trim();
-      const b = hangisi === "K" ? $("kYeni2").value.trim() : $("yYeni2").value.trim();
-      if (!/^\d{4}$/.test(a)) { uyar("ayarUyari", "Yeni PIN 4 haneli bir sayı olmalı."); return; }
-      if (a !== b) { uyar("ayarUyari", "Yazdığınız iki PIN aynı değil."); return; }
-      bekleyenPin = { hangisi: hangisi, yeni: a };
-      uyar("ayarUyari", "Gönderiliyor...", true);
-      postaci.publish(KONU_KOMUT, ["PIN", kimlik, pin, hangisi, a, isim].join("|"));
-      cevapBekle("pin", "ayarUyari");
-    }
-    function cikisYap() {
-      pin = null; rol = null; sakla("pin", null); sakla("rol", null);
-      clearInterval(kayitSayaci);
-      $("isimGiris").value = isim;
-      goster("girisKart");
-    }
-    function merhabaYaz() {
-      $("merhaba").innerHTML = "";
-      $("merhaba").append("Merhaba, " + isim);
-      if (rol === "yonetici") { const r = document.createElement("span"); r.className = "rozet"; r.textContent = "Yönetici"; $("merhaba").append(r); }
-    }
-    function kapiEkrani() {
-      merhabaYaz();
-      if (rol === "yonetici") {
-        goster("kapiKart", "kayitKart");
-        kayitIste();
-        clearInterval(kayitSayaci);
-        kayitSayaci = setInterval(kayitIste, 15000);   // acik kaldikca 15 sn'de bir guncelle
-      } else {
-        goster("kapiKart");                             // kullanici kayitlari gormez
-      }
-    }
-
-    // Acilista: bu telefonda daha once giris yapildiysa dogrudan kapi ekranina gec
-    $("isimGiris").value = isim;
-    if (pin && rol) kapiEkrani(); else goster("girisKart");
   </script>
 </body>
 </html>
