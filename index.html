@@ -86,6 +86,24 @@
     .nokta { width: 10px; height: 10px; border-radius: 50%; background: #f59e0b; }
 
 
+    /* ---------- PIN karti (ana kartla ayni tasarim) ---------- */
+    .gizli { display: none !important; }
+    .pinBaslik { margin: 0 0 4px; font-size: 18px; font-weight: 700; }
+    .pinAlt { margin: 0 0 22px; font-size: 14px; color: var(--soluk); }
+    #pinGiris {
+      width: 100%; padding: 14px; font-size: 28px; letter-spacing: 14px; text-align: center;
+      border: 2px solid #e3eaf6; border-radius: 14px; margin-bottom: 14px;
+      background: var(--zemin); color: var(--yazi); outline: none;
+    }
+    #pinGiris:focus { border-color: var(--lacivert-acik); }
+    #pinButon {
+      width: 100%; padding: 14px; font-size: 18px; font-weight: 700;
+      border: 0; border-radius: 14px; background: var(--lacivert); color: white; cursor: pointer;
+    }
+    #pinButon:active { transform: scale(.98); }
+    #pinHata { margin-top: 12px; min-height: 20px; color: #b91c1c; font-size: 14px; }
+    .kilitIkon { width: 56px; height: 56px; color: var(--lacivert); margin-bottom: 8px; }
+
     footer { text-align: center; font-size: 12px; color: var(--soluk); padding-bottom: 24px; }
   </style>
 </head>
@@ -119,7 +137,21 @@
   </header>
 
   <main>
-    <div class="kart">
+    <!-- PIN karti: dogru PIN girilene kadar kapi karti yerine bu gorunur -->
+    <div class="kart" id="pinKart">
+      <svg class="kilitIkon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="5" y="11" width="14" height="10" rx="2"/>
+        <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+        <circle cx="12" cy="16" r="1.2"/>
+      </svg>
+      <p class="pinBaslik">Giriş</p>
+      <p class="pinAlt">Devam etmek için PIN girin</p>
+      <input id="pinGiris" type="password" inputmode="numeric" maxlength="4" placeholder="••••">
+      <button id="pinButon" onclick="pinKontrol()">Giriş Yap</button>
+      <div id="pinHata"></div>
+    </div>
+
+    <div class="kart gizli" id="kapiKart">
       <button id="buton" onclick="kapiyiAc()" disabled>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="5" y="11" width="14" height="10" rx="2"/>
@@ -137,6 +169,38 @@
   <footer>Dr. Öğr. Üyesi Aslıhan Özakın Laboratuvarı</footer>
 
   <script>
+    // ---------- PIN ----------
+    const DOGRU_PIN = "2026";   // PIN'i degistirmek icin sadece bu satiri degistir
+
+    function pinKontrol() {
+      const girilen = document.getElementById("pinGiris").value;
+      if (girilen === DOGRU_PIN) {
+        girisYapildi();
+        try { localStorage.setItem("pinTamam", "evet"); } catch (e) {}   // bu telefonu hatirla
+      } else {
+        document.getElementById("pinHata").textContent = "Yanlış PIN, tekrar deneyin";
+        document.getElementById("pinGiris").value = "";
+      }
+    }
+
+    function girisYapildi() {
+      document.getElementById("pinKart").classList.add("gizli");
+      document.getElementById("kapiKart").classList.remove("gizli");
+    }
+
+    // Enter tusuyla da giris yapilsin
+    document.getElementById("pinGiris").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") pinKontrol();
+    });
+
+    // Bu telefonda daha once dogru PIN girildiyse tekrar sorma
+    try {
+      if (localStorage.getItem("pinTamam") === "evet") {
+        girisYapildi();
+      }
+    } catch (e) {}
+
+    // ---------- MQTT ----------
     const postaci = mqtt.connect("wss://broker.emqx.io:8084/mqtt");
     const buton = document.getElementById("buton");
 
